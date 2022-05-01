@@ -18,7 +18,7 @@ const printToConsoleConditional = (print: boolean = false):Function => {
   }
   
   function CheckValidPokemonId () {
-    return function ( target: any, propertyKey: string, descriptor: PropertyDescriptor ) {
+    return function ( target: any, propertyKey: string, descriptor: PropertyDescriptor ) { // descriptor is used only when decorating a method
       const originalMethod = descriptor.value;
       console.log( target, propertyKey, descriptor);
 
@@ -32,6 +32,25 @@ const printToConsoleConditional = (print: boolean = false):Function => {
     }
   }
 
+function readonly (isWriteable: boolean = true): Function { 
+  // This decorator will make a property be not writeable, allowing to write a value on it on the very first execution
+  // This makes a property be private and not writable from outside the class
+
+  return function (target: any, propertyKey: string) {
+      const descriptor: PropertyDescriptor = {
+        get () {
+          console.log(this)
+          return 'Pepe'
+        },
+        set (this, val) {
+          Object.defineProperty(this, propertyKey, {
+            value: val,
+            writable: !isWriteable
+          })
+        }
+      };
+  };
+}
 
 // Decorators only executes once during transpilation, at the begining
 @blockPrototype
@@ -39,8 +58,9 @@ const printToConsoleConditional = (print: boolean = false):Function => {
 // To avoid posible decorators warnings, the must enable the option {"experimentalDecorators": true} in tsconfig.json
 @printToConsoleConditional(true)
 
+
 export class Pokemon {
-  public publicApi: string = 'https://pokeapi.co/api/v2/pokemon';
+  public publicApi: string = 'https://pokeapi.co/api/v2/pokemon'; // this is public but I don't want it to be writeable. A property decorator can avoid it
 
   constructor(
     public name: string
