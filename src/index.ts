@@ -47,4 +47,4 @@ getPokemon(3)
 
 const charmander = new Pokemon ('Charmander');
 
-console.log(charmander)
+charmander.savePokemonToDB(5000); // We need to validate the parameter to send, something that could be done with a decorator
