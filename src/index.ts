@@ -1,13 +1,16 @@
 import { Hero as Superhero } from "./classes/Hero";
-import { printObject, genericFunction, genericFunctionArrow } from "./generics/generics";
-import { getPokemon } from "./generics/get-pokemon";
-import { Hero, Villain } from "./interfaces"; // imports both interfaces form index.ts exporter
-
 // import * as HeroClasses from "./classes/Hero"; 
 // We're creating an alias for the complete file and then we can use then independly in this way:
 // HeroClasses.hero
 
+import { printObject, genericFunction, genericFunctionArrow } from "./generics/generics";
 
+import { getPokemon } from "./generics/get-pokemon";
+import { Hero, Villain } from "./interfaces"; // imports both interfaces form index.ts exporter
+
+import { Pokemon } from "./decorators/pokemon-class";
+
+/*****************  Generics  *******************/
 const ironman= new Superhero('Ironman',  1, 35) // Superhero is an alias, but it references to the class Hero at all levels
 
 console.log(ironman.power);
@@ -31,7 +34,17 @@ const deadpool = {
 
 console.log(genericFunctionArrow<Hero>(deadpool).realName);
 
-getPokemon(4)
+
+/*****************  Generics Pokemon *******************/
+
+getPokemon(3)
   .then (pokemon => console.log(pokemon.name))
   .catch (resp => console.log(resp))
   .finally (() => console.log('terminado'))
+
+
+/*****************  Generics Pokemon class *******************/
+
+const charmander = new Pokemon ('Charmander');
+
+console.log(charmander)
